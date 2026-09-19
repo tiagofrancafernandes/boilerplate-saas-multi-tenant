@@ -14,8 +14,9 @@
         "lint:php": "cd apps/api && ./vendor/bin/pint --test",
         "format:php": "cd apps/api && ./vendor/bin/pint",
         "format": "prettier --write . && cd apps/api && ./vendor/bin/pint",
-        "test": "pnpm test:php",
-        "test:php": "cd apps/api && php artisan test"
+        "test": "pnpm test:php && pnpm test:ui",
+        "test:php": "cd apps/api && php artisan test",
+        "test:ui": "pnpm --filter=@saas/ui test"
     },
     "devDependencies": {
         "prettier": "^3.5.3",
