@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/repository-cover.jpg" alt="SaaS Boilerplate Multi-Tenant Cover" width="100%">
+</p>
+
 # SaaS Boilerplate Multi-Tenant Monorepo
 
 Enterprise-grade, scalable **Multi-Tenant SaaS Boilerplate** template designed for high performance, modularity, and rapid SaaS development.
