@@ -49,13 +49,32 @@ When asked to create new tasks or plans:
 
 ### 4. Completing a Task
 Before marking a task as finished and moving it to `tasks/done/`:
-- [ ] Run automated tests (`pnpm test:php` and `pnpm test`).
+- [ ] Run automated tests (`pnpm test:php` and `pnpm test`). **ALL tests must pass (both new/updated and general suite)**.
 - [ ] Validate code style with Laravel Pint (`pnpm lint:php` or `vendor/bin/pint --test`).
 - [ ] Validate front-end formatting with Prettier (`pnpm format`).
 - [ ] Verify front-end compilation (`pnpm build`).
 - [ ] Update the task document with the completion summary and technical notes.
 - [ ] Move the file from `tasks/doing/` to `tasks/done/`.
 - [ ] Create a clear, descriptive Git commit (following Conventional Commits).
+
+---
+
+## 🧪 Mandatory Automated Testing (Happy Path & Sad Path)
+
+Automated testing is **strictly mandatory** across the monorepo, particularly for the back-end API and all domain logic:
+
+1. **Full Feature & Rule Coverage:**
+   - **Every single business rule**, domain service, entity method, access policy, and route endpoint MUST have corresponding automated tests (Unit and/or Feature tests).
+   - Zero untested business logic is allowed.
+2. **Happy Path & Sad Path Requirement:**
+   - Every test suite must comprehensively cover:
+     - **Happy Path:** Expected execution, valid inputs, correct state transitions, successful 2xx HTTP responses.
+     - **Sad Path:** Validation failures, missing/malformed input, unauthorized/forbidden access (401/403), expired trials or subscriptions, payment failures, error payloads, and edge cases.
+3. **Pre-Completion Test Validation:**
+   - Before completing any task or marking it as `done`, **100% of automated tests must pass**:
+     - The newly created or updated tests for the feature.
+     - The entire general test suite (`pnpm test:php` and `pnpm test`).
+   - If any test fails, the task **CANNOT** be considered complete.
 
 ---
 

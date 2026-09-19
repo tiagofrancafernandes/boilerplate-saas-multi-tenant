@@ -31,13 +31,32 @@ When creating tasks, write them to `tasks/plans/` using the standard format:
   - Technical notes and relevant file references.
 
 ### 3. Completing Tasks
-- Verify all tests and code style checks pass.
+- **Verify all tests pass (100% success rate on new/updated tests and the entire regression suite).**
 - Update the completion metadata in the task document.
 - Move the file to `tasks/done/`:
   ```bash
   mv tasks/doing/NNN-sequence-title-MMM.md tasks/done/
   ```
 - Commit the changes immediately.
+
+---
+
+## 🧪 Mandatory Automated Testing (Happy Path & Sad Path)
+
+Gemini **MUST** enforce comprehensive automated testing on all code changes:
+
+1. **Mandatory Automated Test Coverage:**
+   - **Every feature, business rule, and critical logic** must have automated tests (Unit and/or Feature tests in PHP/Laravel).
+   - No feature or modification can be accepted without dedicated tests.
+2. **Happy Path & Sad Path Coverage:**
+   - Every test suite must cover both:
+     - **Happy Path:** Valid inputs, successful business flow, correct state transitions, 2xx HTTP response codes.
+     - **Sad Path:** Invalid/malformed data, unauthenticated/unauthorized access (401/403), expired trials or subscriptions, payment failure scenarios, read-only mode blocks, edge cases, and proper error payloads.
+3. **Pre-Completion Test Validation:**
+   - Before completing any task, running a final commit, or transitioning a task to `tasks/done/`:
+     - Run `pnpm test:php` (all PHP unit & feature tests).
+     - Run `pnpm test` (monorepo test suites).
+     - Ensure **both the newly added/modified tests AND the entire general test suite pass without a single failure**.
 
 ---
 

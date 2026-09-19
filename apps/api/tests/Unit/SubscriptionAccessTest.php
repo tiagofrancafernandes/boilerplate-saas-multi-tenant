@@ -73,4 +73,39 @@ class SubscriptionAccessTest extends TestCase
         $this->assertFalse(SubscriptionAccessService::canPerformWrite($tenant));
         $this->assertFalse(SubscriptionAccessService::shouldWarnSubscription($tenant));
     }
+
+    public function testGetStatusDetailsHappyPathForActiveTenant(): void
+    {
+        $tenant = new Tenant([
+            'id' => 'tenant-status-details-happy',
+            'status' => TenantStatus::ACTIVE,
+            'paid_until' => now()->utc()->addMonth(),
+        ]);
+
+        $details = SubscriptionAccessService::getStatusDetails($tenant);
+
+        $this->assertTrue($details['can_write']);
+        $this->assertFalse($details['should_warn']);
+        $this->assertFalse($details['in_trial']);
+        $this->assertFalse($details['in_grace_period']);
+        $this->assertSame('active', $details['status']);
+    }
+
+    public function testGetStatusDetailsSadPathForExpiredTenantInGracePeriod(): void
+    {
+        $tenant = new Tenant([
+            'id' => 'tenant-status-details-grace',
+            'status' => TenantStatus::PAST_DUE,
+            'paid_until' => now()->utc()->subDay(),
+            'payment_failed_at' => now()->utc()->subHours(12),
+        ]);
+
+        $details = SubscriptionAccessService::getStatusDetails($tenant);
+
+        $this->assertTrue($details['can_write']);
+        $this->assertTrue($details['should_warn']);
+        $this->assertFalse($details['in_trial']);
+        $this->assertTrue($details['in_grace_period']);
+        $this->assertSame('past_due', $details['status']);
+    }
 }

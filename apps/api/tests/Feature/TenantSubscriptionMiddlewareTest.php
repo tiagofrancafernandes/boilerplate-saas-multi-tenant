@@ -86,4 +86,58 @@ class TenantSubscriptionMiddlewareTest extends TestCase
 
         tenancy()->end();
     }
+
+    public function testSuspendedTenantSadPathBlocksWriteWith403(): void
+    {
+        $tenant = Tenant::create([
+            'id' => 'tenant-suspended-http',
+            'name' => 'Suspended Tenant',
+            'status' => TenantStatus::SUSPENDED,
+            'paid_until' => now()->utc()->addMonth(),
+        ]);
+
+        tenancy()->initialize($tenant);
+
+        $writeResponse = $this->postJson('/api/tenant/resources', [
+            'name' => 'Should Be Blocked',
+        ]);
+
+        $writeResponse->assertStatus(403);
+        $writeResponse->assertJsonFragment([
+            'error' => 'SUBSCRIPTION_READ_ONLY',
+        ]);
+
+        tenancy()->end();
+    }
+
+    public function testCanceledTenantSadPathBlocksWriteWith403(): void
+    {
+        $tenant = Tenant::create([
+            'id' => 'tenant-canceled-http',
+            'name' => 'Canceled Tenant',
+            'status' => TenantStatus::CANCELED,
+            'paid_until' => now()->utc()->addMonth(),
+        ]);
+
+        tenancy()->initialize($tenant);
+
+        $writeResponse = $this->postJson('/api/tenant/resources', [
+            'name' => 'Should Be Blocked',
+        ]);
+
+        $writeResponse->assertStatus(403);
+        $writeResponse->assertJsonFragment([
+            'error' => 'SUBSCRIPTION_READ_ONLY',
+        ]);
+
+        tenancy()->end();
+    }
+
+    public function testNonTenantContextHappyPathPassesThroughMiddleware(): void
+    {
+        $response = $this->getJson('/api/public/health');
+
+        $response->assertStatus(200);
+        $response->assertHeaderMissing('X-Subscription-Warning');
+    }
 }
