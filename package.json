@@ -1,25 +1,25 @@
 {
-    "name": "boilerplate-saas-multi-tenant",
-    "version": "1.0.0",
-    "private": true,
-    "packageManager": "pnpm@11.10.0",
-    "scripts": {
-        "dev": "turbo run dev",
-        "dev:site": "turbo run dev --filter=@saas/site",
-        "dev:web": "turbo run dev --filter=@saas/web",
-        "dev:admin": "turbo run dev --filter=@saas/admin",
-        "dev:api": "cd apps/api && php artisan serve",
-        "build": "turbo run build",
-        "lint": "turbo run lint",
-        "lint:php": "cd apps/api && ./vendor/bin/pint --test",
-        "format:php": "cd apps/api && ./vendor/bin/pint",
-        "format": "prettier --write . && cd apps/api && ./vendor/bin/pint",
-        "test": "turbo run test",
-        "test:php": "cd apps/api && php artisan test"
-    },
-    "devDependencies": {
-        "prettier": "^3.5.3",
-        "turbo": "^2.4.4",
-        "typescript": "^5.8.2"
-    }
+  "name": "boilerplate-saas-multi-tenant",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.10.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:site": "turbo run dev --filter=@saas/site",
+    "dev:web": "turbo run dev --filter=@saas/web",
+    "dev:admin": "turbo run dev --filter=@saas/admin",
+    "dev:api": "cd apps/api && php artisan serve",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "lint:php": "cd apps/api && ./vendor/bin/pint --test",
+    "format:php": "cd apps/api && ./vendor/bin/pint",
+    "format": "prettier --write . && cd apps/api && ./vendor/bin/pint",
+    "test": "turbo run test",
+    "test:php": "cd apps/api && php artisan test"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2"
+  }
 }

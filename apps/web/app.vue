@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { BaseButton } from '@saas/ui';
-import { ref } from 'vue';
+import { BaseButton } from '@saas/ui'
+import { ref } from 'vue'
 
-const showGracePeriodWarning = ref(true);
+const showGracePeriodWarning = ref(true)
 </script>
 
 <template>
@@ -34,24 +34,15 @@ const showGracePeriodWarning = ref(true);
                     <span>Tenant App</span>
                 </div>
                 <nav class="mt-8 space-y-2">
-                    <a
-                        href="#"
-                        class="flex items-center gap-3 rounded-lg bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700"
-                    >
+                    <a href="#" class="flex items-center gap-3 rounded-lg bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700">
                         <iconify-icon icon="tabler:home" class="h-5 w-5"></iconify-icon>
                         <span>Dashboard</span>
                     </a>
-                    <a
-                        href="#"
-                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                    >
+                    <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50">
                         <iconify-icon icon="tabler:credit-card" class="h-5 w-5"></iconify-icon>
                         <span>Billing & Subscription</span>
                     </a>
-                    <a
-                        href="#"
-                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                    >
+                    <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50">
                         <iconify-icon icon="tabler:settings" class="h-5 w-5"></iconify-icon>
                         <span>Settings</span>
                     </a>
@@ -65,7 +56,9 @@ const showGracePeriodWarning = ref(true);
                         <h2 class="text-2xl font-bold text-slate-900">Workspace Overview</h2>
                         <p class="text-sm text-slate-500">Welcome to your SaaS tenant space.</p>
                     </div>
-                    <BaseButton variant="primary" icon="tabler:plus">New Resource</BaseButton>
+                    <BaseButton variant="primary" icon="tabler:plus">
+                        New Resource
+                    </BaseButton>
                 </div>
             </main>
         </div>
