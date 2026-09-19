@@ -1,0 +1,63 @@
+### User Preferences Demo Requests
+### Base URLs
+@baseUrl = http://localhost:8000
+@token = your_user_bearer_token_here
+
+### ------------------------------------------------------------------
+### Happy Paths
+### ------------------------------------------------------------------
+
+### 1. Get Current User Preferences (Returns default merged values if empty)
+GET {{baseUrl}}/api/user/preferences
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### 2. Update User Preferences (Partial update - merges with existing keys)
+PUT {{baseUrl}}/api/user/preferences
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "locale": "pt_BR",
+    "timezone": "America/Sao_Paulo",
+    "color_scheme": "dark"
+}
+
+### 3. Update Individual Preference (e.g. only color_scheme to light)
+PUT {{baseUrl}}/api/user/preferences
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "color_scheme": "light"
+}
+
+### ------------------------------------------------------------------
+### Sad Paths
+### ------------------------------------------------------------------
+
+### 4. Sad Path: Unauthenticated Access (Expects 401 Unauthorized)
+GET {{baseUrl}}/api/user/preferences
+Accept: application/json
+
+### 5. Sad Path: Invalid Timezone (Expects 422 Unprocessable Content)
+PUT {{baseUrl}}/api/user/preferences
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "timezone": "Invalid/Fake_Timezone"
+}
+
+### 6. Sad Path: Invalid Color Scheme (Expects 422 Unprocessable Content)
+PUT {{baseUrl}}/api/user/preferences
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "color_scheme": "invalid_color_theme"
+}
