@@ -1,0 +1,32 @@
+### Template / Demo Requests
+### Base URLs
+@baseUrl = http://localhost:8000
+@adminUrl = {{baseUrl}}/api/admin
+@tenantUrl = {{baseUrl}}/api/tenant
+@publicUrl = {{baseUrl}}/api/public
+
+### ------------------------------------------------------------------
+### Public Routes
+### ------------------------------------------------------------------
+
+### Health Check / Status
+GET {{publicUrl}}/health
+Accept: application/json
+
+### ------------------------------------------------------------------
+### Tenant Routes
+### ------------------------------------------------------------------
+
+### Get Current Tenant Profile
+GET {{tenantUrl}}/profile
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### ------------------------------------------------------------------
+### Admin Routes
+### ------------------------------------------------------------------
+
+### List All Tenants
+GET {{adminUrl}}/tenants
+Accept: application/json
+Authorization: Bearer {{adminToken}}

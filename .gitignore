@@ -1,4 +1,3 @@
-
 *no*commit*
 *No*Commit*
 *NO*COMMIT*
@@ -16,3 +15,39 @@ _ide_helper*
 .vite
 dist*
 
+# Node / Turborepo
+node_modules
+.turbo
+.output
+.nuxt
+.nitro
+.cache
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Composer / Laravel
+vendor/
+apps/api/storage/*.key
+apps/api/storage/framework/cache/*
+apps/api/storage/framework/sessions/*
+apps/api/storage/framework/views/*
+apps/api/storage/logs/*
+!apps/api/storage/framework/cache/.gitignore
+!apps/api/storage/framework/sessions/.gitignore
+!apps/api/storage/framework/views/.gitignore
+!apps/api/storage/logs/.gitignore
+apps/api/bootstrap/cache/*
+!apps/api/bootstrap/cache/.gitignore
+apps/api/public/hot
+apps/api/public/storage
+
+# IDEs and OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

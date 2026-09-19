@@ -74,17 +74,13 @@
             "use_nullable_type_declaration": true
         },
         "visibility_required": {
-            "elements": [
-                "const",
-                "method",
-                "property"
-            ]
+            "elements": ["const", "method", "property"]
         },
         "php_unit_method_casing": {
             "case": "camel_case"
         },
         "blank_line_before_statement": {
-            "statements":[
+            "statements": [
                 "break",
                 "case",
                 "continue",
@@ -129,9 +125,7 @@
             ]
         }
     },
-    "notPath": [
-        "path/to/excluded-file.php"
-    ],
+    "notPath": ["path/to/excluded-file.php"],
     "exclude": [
         "_dev_dir",
         "vendor",
@@ -144,15 +138,6 @@
         "storage",
         "docker-envs"
     ],
-    "notName": [
-        "*-my-file.php",
-        "*_ide_helper.php",
-        "*_ide_*",
-        "*no-commit*",
-        ".phpstorm.meta.php"
-    ],
-    "docs_links": [
-        "https://mlocati.github.io/php-cs-fixer-configurator",
-        "https://laravel.com/docs/pint#rules"
-    ]
+    "notName": ["*-my-file.php", "*_ide_helper.php", "*_ide_*", "*no-commit*", ".phpstorm.meta.php"],
+    "docs_links": ["https://mlocati.github.io/php-cs-fixer-configurator", "https://laravel.com/docs/pint#rules"]
 }
