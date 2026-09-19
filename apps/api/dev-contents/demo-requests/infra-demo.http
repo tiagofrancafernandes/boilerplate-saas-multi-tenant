@@ -163,3 +163,35 @@ X-Infra-Key: {{infraSecret}}
 
 {
 }
+
+### ==================================================================
+### 5. Asynchronous Serverless Queue Webhooks (/queue/process-task)
+### ==================================================================
+
+### 5.1 Process Task via Local Internal Bypass
+POST {{infraUrl}}/queue/process-task
+Accept: application/json
+Content-Type: application/json
+x-internal-webhook-bypass: boilerplate-internal-bypass-secret
+
+{
+    "action": "App\\Jobs\\SampleReportJob",
+    "payload": {
+        "report_id": 123
+    }
+}
+
+### 5.2 Process Task via Local Bypass for Specific Tenant
+POST {{infraUrl}}/queue/process-task
+Accept: application/json
+Content-Type: application/json
+x-internal-webhook-bypass: boilerplate-internal-bypass-secret
+
+{
+    "action": "App\\Jobs\\SampleReportJob",
+    "tenant_id": "tenant_demo",
+    "payload": {
+        "report_id": 456
+    }
+}
+

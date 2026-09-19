@@ -1,0 +1,104 @@
+### Serverless & Async Queue Webhook Demo Requests
+### Base URLs
+@baseUrl = http://localhost:8000
+@infraUrl = {{baseUrl}}/api/infra
+@internalBypassSecret = boilerplate-internal-bypass-secret
+@qstashSignature = your_upstash_jwt_signature_here
+
+### ==================================================================
+### 1. Process Task via Local Internal Bypass (POST)
+### ==================================================================
+
+### 1.1 Process Task (Global / Non-tenant)
+POST {{infraUrl}}/queue/process-task
+Accept: application/json
+Content-Type: application/json
+x-internal-webhook-bypass: {{internalBypassSecret}}
+
+{
+    "action": "App\\Jobs\\SampleReportJob",
+    "payload": {
+        "report_type": "monthly_summary",
+        "format": "pdf"
+    }
+}
+
+### 1.2 Process Task within Multi-Tenant Schema Isolation
+POST {{infraUrl}}/queue/process-task
+Accept: application/json
+Content-Type: application/json
+x-internal-webhook-bypass: {{internalBypassSecret}}
+
+{
+    "action": "App\\Jobs\\TenantExportJob",
+    "tenant_id": "tenant_paying",
+    "payload": {
+        "export_id": "exp_98765",
+        "entity": "transactions"
+    }
+}
+
+### ==================================================================
+### 2. Process Task via Upstash QStash Signature (POST)
+### ==================================================================
+
+### 2.1 Process Task with Upstash Signature Header
+POST {{infraUrl}}/queue/process-task
+Accept: application/json
+Content-Type: application/json
+Upstash-Signature: {{qstashSignature}}
+
+{
+    "action": "App\\Jobs\\ProcessSubscriptionJob",
+    "tenant_id": "tenant_demo",
+    "payload": {
+        "cycle": "2026-09"
+    }
+}
+
+### ==================================================================
+### 3. Sad Paths & Security Validation (HTTP 401 & 422)
+### ==================================================================
+
+### 3.1 Sad Path: Missing Authentication/Signature (Expects 401 Unauthorized)
+POST {{infraUrl}}/queue/process-task
+Accept: application/json
+Content-Type: application/json
+
+{
+    "action": "App\\Jobs\\SampleJob",
+    "payload": {}
+}
+
+### 3.2 Sad Path: Invalid Bypass Secret (Expects 401 Unauthorized)
+POST {{infraUrl}}/queue/process-task
+Accept: application/json
+Content-Type: application/json
+x-internal-webhook-bypass: wrong-secret-token
+
+{
+    "action": "App\\Jobs\\SampleJob",
+    "payload": {}
+}
+
+### 3.3 Sad Path: Missing Action Parameter (Expects 422 Unprocessable)
+POST {{infraUrl}}/queue/process-task
+Accept: application/json
+Content-Type: application/json
+x-internal-webhook-bypass: {{internalBypassSecret}}
+
+{
+    "payload": {}
+}
+
+### 3.4 Sad Path: Non-existent Tenant ID (Expects 404 Not Found)
+POST {{infraUrl}}/queue/process-task
+Accept: application/json
+Content-Type: application/json
+x-internal-webhook-bypass: {{internalBypassSecret}}
+
+{
+    "action": "App\\Jobs\\SampleJob",
+    "tenant_id": "tenant_non_existent",
+    "payload": {}
+}
