@@ -19,4 +19,16 @@ return [
         'scheduler_role' => env('INFRA_SCHEDULER_ROLE', 'super-admin'),
         'scheduler_permission' => env('INFRA_SCHEDULER_PERMISSION', 'run-scheduler'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Seeding & Demo Data Rules
+    |--------------------------------------------------------------------------
+    |
+    | Controls whether demo users and demonstration tenants can be seeded.
+    | In non-production environments, this defaults to true. In production,
+    | it is strictly disabled unless SEED_DEMO_USERS is set to true.
+    |
+    */
+    'seed_demo_users' => (bool) env('SEED_DEMO_USERS', false),
 ];

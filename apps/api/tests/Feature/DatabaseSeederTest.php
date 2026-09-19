@@ -56,6 +56,13 @@ class DatabaseSeederTest extends TestCase
         $this->assertFalse($expiredTenant->isPaidActive());
         $this->assertFalse($expiredTenant->isInGracePeriod());
         $this->assertFalse($expiredTenant->canWrite());
+
+        // Verify Plans Seeded
+        $this->assertSame(3, \App\Models\Plan::count());
+        $starterPlan = \App\Models\Plan::where('slug', \App\Enums\SubscriptionPlan::STARTER)->first();
+        $this->assertNotNull($starterPlan);
+        $this->assertSame('Starter', $starterPlan->name);
+        $this->assertSame(4900, $starterPlan->price_cents);
     }
 
     public function testDatabaseSeederHappyPathIsIdempotentWithUpdateOrCreate(): void
@@ -73,5 +80,31 @@ class DatabaseSeederTest extends TestCase
         $this->assertSame(1, Tenant::where('id', 'paid_tenant')->count());
         $this->assertSame(1, Tenant::where('id', 'pending_tenant')->count());
         $this->assertSame(1, Tenant::where('id', 'expired_tenant')->count());
+
+        $this->assertSame(3, \App\Models\Plan::count());
+    }
+
+    public function testTenantSeederSkipsDemoUsersInProductionWithoutFlagSadPath(): void
+    {
+        config(['app.env' => 'production']);
+        config(['app_rules.seed_demo_users' => false]);
+
+        $this->seed(\Database\Seeders\TenantSeeder::class);
+
+        $this->assertSame(0, Tenant::count());
+        $this->assertSame(0, User::where('email', 'demo@mail.com')->count());
+    }
+
+    public function testTenantSeederAllowsDemoUsersInProductionWithFlagHappyPath(): void
+    {
+        $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
+
+        config(['app.env' => 'production']);
+        config(['app_rules.seed_demo_users' => true]);
+
+        $this->seed(\Database\Seeders\TenantSeeder::class);
+
+        $this->assertSame(4, Tenant::count());
+        $this->assertSame(1, User::where('email', 'demo@mail.com')->count());
     }
 }

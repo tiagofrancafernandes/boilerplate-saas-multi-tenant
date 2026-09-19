@@ -15,6 +15,10 @@ class TenantSeeder extends Seeder
 {
     public function run(): void
     {
+        if (!static::shouldSeedDemoUsers()) {
+            return;
+        }
+
         $tenants = [
             [
                 'id' => 'demo_tenant',
@@ -47,7 +51,7 @@ class TenantSeeder extends Seeder
             [
                 'id' => 'pending_tenant',
                 'name' => 'Wayne Enterprises',
-                'status' => TenantStatus::ACTIVE,
+                'status' => TenantStatus::PAST_DUE,
                 'plan' => SubscriptionPlan::ENTERPRISE,
                 'trial_ends_at' => now()->subDays(60),
                 'paid_until' => now()->subDay(),
@@ -61,7 +65,7 @@ class TenantSeeder extends Seeder
             [
                 'id' => 'expired_tenant',
                 'name' => 'Cyberdyne Systems',
-                'status' => TenantStatus::ACTIVE,
+                'status' => TenantStatus::SUSPENDED,
                 'plan' => SubscriptionPlan::STARTER,
                 'trial_ends_at' => now()->subDays(90),
                 'paid_until' => now()->subDays(10),
@@ -108,5 +112,14 @@ class TenantSeeder extends Seeder
 
             $user->syncRoles(['tenant-admin']);
         }
+    }
+
+    public static function shouldSeedDemoUsers(): bool
+    {
+        if (config('app.env') !== 'production') {
+            return true;
+        }
+
+        return (bool) config('app_rules.seed_demo_users', false);
     }
 }
