@@ -2,6 +2,7 @@
 ### Base URLs
 @baseUrl = http://localhost:8000
 @infraUrl = {{baseUrl}}/api/infra
+@infraShortUrl = {{baseUrl}}/infra
 @infraSecret = change-this-to-a-secure-random-token
 @superAdminToken = your_super_admin_sanctum_token_here
 @regularUserToken = your_regular_user_sanctum_token_here
@@ -10,17 +11,22 @@
 ### Happy Paths
 ### ------------------------------------------------------------------
 
-### 1. Trigger Scheduler with Static Header Key (POST)
+### 1. Trigger Scheduler with Static Header Key via /api/infra (POST)
 POST {{infraUrl}}/scheduler
 Accept: application/json
 X-Infra-Key: {{infraSecret}}
 
-### 2. Trigger Scheduler with Static Header Key (GET)
+### 2. Trigger Scheduler with Static Header Key via /infra (POST)
+POST {{infraShortUrl}}/scheduler
+Accept: application/json
+X-Infra-Key: {{infraSecret}}
+
+### 3. Trigger Scheduler with Static Header Key (GET)
 GET {{infraUrl}}/scheduler
 Accept: application/json
 X-Infra-Key: {{infraSecret}}
 
-### 3. Trigger Scheduler with Super Admin Sanctum Bearer Token (POST)
+### 4. Trigger Scheduler with Super Admin Sanctum Bearer Token (POST)
 POST {{infraUrl}}/scheduler
 Accept: application/json
 Authorization: Bearer {{superAdminToken}}
