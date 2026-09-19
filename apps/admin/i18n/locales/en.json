@@ -4,6 +4,10 @@
     },
     "role": "Role: Super Admin",
     "signOut": "Sign Out",
+    "nav": {
+        "tenants": "Tenants",
+        "infra": "Infrastructure & Tools"
+    },
     "management": {
         "title": "Tenants Management",
         "subtitle": "Global overview of all registered tenants and schemas.",
@@ -18,5 +22,49 @@
         "actions": "Actions",
         "statusActive": "Active",
         "manage": "Manage"
+    },
+    "infra": {
+        "title": "Infrastructure Operations Console",
+        "subtitle": "Trigger background schedulers, subscription cycle synchronization, and arbitrary Artisan commands with live terminal logs.",
+        "accessDeniedTitle": "Access Restricted",
+        "accessDeniedDesc": "You do not have the required role or permissions to access infrastructure operations.",
+        "settingsTitle": "Authentication & Target Settings",
+        "apiBaseUrl": "API Base URL",
+        "staticKey": "Static Auth Key (X-Infra-Key)",
+        "bearerToken": "Super Admin Bearer Token",
+        "userRoleLabel": "Active Role",
+        "permissionsLabel": "Permissions",
+        "simulatePermission": "Toggle Permission Test",
+        "cards": {
+            "subscriptionTitle": "Subscription Cycle Sync",
+            "subscriptionDesc": "Scan tenants to detect expired subscriptions, update status, and apply grace periods.",
+            "tenantIdPlaceholder": "Optional Tenant ID (blank for all tenants)",
+            "runSubscriptionCheck": "Run Subscription Sync",
+            "schedulerTitle": "Laravel Scheduler (Cron)",
+            "schedulerDesc": "Trigger Laravel scheduled tasks via HTTP endpoint on environments without native cron.",
+            "runScheduler": "Trigger Scheduler",
+            "artisanTitle": "Artisan Command Runner",
+            "artisanDesc": "Execute arbitrary Artisan commands with dynamic arguments, parameters, and webhooks.",
+            "commandPlaceholder": "Command name (e.g. inspire, route:list, subscriptions:check-cycles)",
+            "addParam": "Add Parameter",
+            "paramKeyPlaceholder": "Key (e.g. --tenant)",
+            "paramValPlaceholder": "Value (e.g. demo_tenant)",
+            "removeParam": "Remove",
+            "runArtisan": "Execute Command",
+            "queueTitle": "Queue Worker Trigger",
+            "queueDesc": "Process queued jobs once via HTTP on serverless or restricted platforms.",
+            "runQueue": "Process Queue"
+        },
+        "terminal": {
+            "title": "Live Execution Console",
+            "ready": "Console ready. Awaiting infrastructure command trigger.",
+            "clear": "Clear Console",
+            "copy": "Copy Output",
+            "copied": "Copied!",
+            "status": "Status",
+            "exitCode": "Exit Code",
+            "duration": "Duration",
+            "executedAt": "Executed At"
+        }
     }
 }

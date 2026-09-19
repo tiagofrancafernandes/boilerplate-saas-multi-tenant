@@ -4,6 +4,10 @@
     },
     "role": "Perfil: Super Admin",
     "signOut": "Sair",
+    "nav": {
+        "tenants": "Tenants",
+        "infra": "Infraestrutura & Ferramentas"
+    },
     "management": {
         "title": "Gerenciamento de Tenants",
         "subtitle": "Visão geral e monitoramento de todos os clientes e schemas registrados.",
@@ -18,5 +22,49 @@
         "actions": "Ações",
         "statusActive": "Ativo",
         "manage": "Gerenciar"
+    },
+    "infra": {
+        "title": "Console de Operações de Infraestrutura",
+        "subtitle": "Execute agendadores em background, sincronização de ciclo de assinaturas e comandos Artisan com logs de terminal em tempo real.",
+        "accessDeniedTitle": "Acesso Restrito",
+        "accessDeniedDesc": "Você não possui o perfil ou as permissões necessárias para acessar as operações de infraestrutura.",
+        "settingsTitle": "Configurações de Autenticação e Conexão",
+        "apiBaseUrl": "URL Base da API",
+        "staticKey": "Chave de Auth Estática (X-Infra-Key)",
+        "bearerToken": "Bearer Token do Super Admin",
+        "userRoleLabel": "Perfil Ativo",
+        "permissionsLabel": "Permissões",
+        "simulatePermission": "Alternar Teste de Permissão",
+        "cards": {
+            "subscriptionTitle": "Sincronização de Assinaturas",
+            "subscriptionDesc": "Varre os tenants para detectar assinaturas expiradas, atualizar status e aplicar carência.",
+            "tenantIdPlaceholder": "ID do Tenant opcional (em branco para todos)",
+            "runSubscriptionCheck": "Executar Sincronização",
+            "schedulerTitle": "Laravel Scheduler (Cron)",
+            "schedulerDesc": "Dispara tarefas agendadas do Laravel via HTTP para ambientes sem cron nativo.",
+            "runScheduler": "Disparar Agendador",
+            "artisanTitle": "Executor de Comandos Artisan",
+            "artisanDesc": "Execute comandos Artisan com argumentos, parâmetros e webhooks dinâmicos.",
+            "commandPlaceholder": "Nome do comando (ex: inspire, route:list, subscriptions:check-cycles)",
+            "addParam": "Adicionar Parâmetro",
+            "paramKeyPlaceholder": "Chave (ex: --tenant)",
+            "paramValPlaceholder": "Valor (ex: demo_tenant)",
+            "removeParam": "Remover",
+            "runArtisan": "Executar Comando",
+            "queueTitle": "Disparador de Fila",
+            "queueDesc": "Processa jobs da fila pontualmente via HTTP em plataformas serverless ou restritas.",
+            "runQueue": "Processar Fila"
+        },
+        "terminal": {
+            "title": "Console de Execução em Tempo Real",
+            "ready": "Console pronto. Aguardando execução de comando de infraestrutura.",
+            "clear": "Limpar Console",
+            "copy": "Copiar Saída",
+            "copied": "Copiado!",
+            "status": "Status",
+            "exitCode": "Código de Saída",
+            "duration": "Duração",
+            "executedAt": "Executado Em"
+        }
     }
 }
