@@ -1,0 +1,22 @@
+{
+    "app": {
+        "title": "Super Admin Console"
+    },
+    "role": "Role: Super Admin",
+    "signOut": "Sign Out",
+    "management": {
+        "title": "Tenants Management",
+        "subtitle": "Global overview of all registered tenants and schemas.",
+        "addTenant": "Add Tenant"
+    },
+    "table": {
+        "tenantId": "Tenant ID",
+        "name": "Name",
+        "schema": "Schema",
+        "paidUntil": "Paid Until",
+        "status": "Status",
+        "actions": "Actions",
+        "statusActive": "Active",
+        "manage": "Manage"
+    }
+}

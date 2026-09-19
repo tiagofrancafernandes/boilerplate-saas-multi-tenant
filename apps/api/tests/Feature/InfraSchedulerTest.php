@@ -58,6 +58,16 @@ class InfraSchedulerTest extends TestCase
         $response->assertJsonPath('success', true);
     }
 
+    public function testSchedulerHappyPathExecutesViaShortInfraPrefix(): void
+    {
+        $response = $this->postJson('/infra/scheduler', [], [
+            'X-Infra-Key' => 'secure-test-token-12345',
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonPath('success', true);
+    }
+
     public function testSchedulerHappyPathExecutesWithStaticKeyAsBearerToken(): void
     {
         $response = $this->postJson('/api/infra/scheduler', [], [

@@ -1,0 +1,22 @@
+{
+    "app": {
+        "title": "Console do Super Admin"
+    },
+    "role": "Perfil: Super Admin",
+    "signOut": "Sair",
+    "management": {
+        "title": "Gerenciamento de Tenants",
+        "subtitle": "Visão geral e monitoramento de todos os clientes e schemas registrados.",
+        "addTenant": "Adicionar Tenant"
+    },
+    "table": {
+        "tenantId": "ID do Tenant",
+        "name": "Nome",
+        "schema": "Schema",
+        "paidUntil": "Pago Até",
+        "status": "Status",
+        "actions": "Ações",
+        "statusActive": "Ativo",
+        "manage": "Gerenciar"
+    }
+}

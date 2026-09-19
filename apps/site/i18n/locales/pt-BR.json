@@ -1,0 +1,16 @@
+{
+    "app": {
+        "title": "SaaS Boilerplate"
+    },
+    "nav": {
+        "features": "Funcionalidades",
+        "pricing": "Planos e Preços",
+        "getStarted": "Começar Agora"
+    },
+    "hero": {
+        "title": "Boilerplate SaaS Multi-Tenant de Próxima Geração",
+        "description": "Multi-tenancy com isolamento de esquemas no PostgreSQL, ciclos automáticos de assinatura, gateway de pagamento agnóstico e interfaces Nuxt 3 modernas.",
+        "explorePlans": "Conhecer Planos",
+        "documentation": "Documentação"
+    }
+}

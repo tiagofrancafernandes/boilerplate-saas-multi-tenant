@@ -15,6 +15,7 @@
         "iconify-icon": "^2.3.0"
     },
     "devDependencies": {
+        "@nuxtjs/i18n": "^10.6.0",
         "@nuxtjs/tailwindcss": "^6.13.1",
         "@saas/config": "workspace:*",
         "nuxt": "^3.16.0",

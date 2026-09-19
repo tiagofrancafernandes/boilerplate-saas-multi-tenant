@@ -2,9 +2,27 @@
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: { enabled: true },
-    modules: ['@nuxtjs/tailwindcss'],
+    modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
     devServer: {
         port: 3002,
+    },
+    i18n: {
+        strategy: 'no_prefix',
+        defaultLocale: 'en',
+        lazy: true,
+        langDir: 'locales',
+        locales: [
+            {
+                code: 'pt-BR',
+                name: 'Português (BR)',
+                file: 'pt-BR.json',
+            },
+            {
+                code: 'en',
+                name: 'English (US)',
+                file: 'en.json',
+            },
+        ],
     },
     vue: {
         compilerOptions: {

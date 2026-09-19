@@ -1,0 +1,26 @@
+{
+    "app": {
+        "title": "Tenant App"
+    },
+    "banners": {
+        "graceWarningDefault": "Subscription warning: payment pending. Grace period active.",
+        "dismiss": "Dismiss",
+        "readOnly": "Workspace is in Read-Only mode. Submissions and changes are disabled until subscription is renewed.",
+        "renewNow": "Renew Now"
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "billing": "Billing & Subscription",
+        "settings": "Settings"
+    },
+    "workspace": {
+        "title": "Workspace Overview",
+        "subtitle": "Welcome to your SaaS tenant space.",
+        "newResource": "New Resource",
+        "subscriptionCardTitle": "Subscription Status",
+        "subscriptionCardDesc": "Read-only enforcement automatically disables write actions when past due.",
+        "currentMode": "Current Mode:",
+        "modeReadOnly": "Read-Only (Locked)",
+        "modeFullAccess": "Full Access (Read/Write)"
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "app": {
+        "title": "Painel do Tenant"
+    },
+    "banners": {
+        "graceWarningDefault": "Aviso de assinatura: pagamento pendente. Período de tolerância ativo.",
+        "dismiss": "Fechar",
+        "readOnly": "O espaço de trabalho está em modo Somente Leitura. Criações e alterações estão bloqueadas até a renovação da assinatura.",
+        "renewNow": "Renovar Agora"
+    },
+    "nav": {
+        "dashboard": "Painel Principal",
+        "billing": "Cobrança & Assinatura",
+        "settings": "Configurações"
+    },
+    "workspace": {
+        "title": "Visão Geral do Workspace",
+        "subtitle": "Bem-vindo ao seu espaço SaaS multi-tenant.",
+        "newResource": "Novo Recurso",
+        "subscriptionCardTitle": "Status da Assinatura",
+        "subscriptionCardDesc": "O bloqueio de leitura impede automaticamente ações de escrita quando a assinatura expirar.",
+        "currentMode": "Modo Atual:",
+        "modeReadOnly": "Somente Leitura (Bloqueado)",
+        "modeFullAccess": "Acesso Completo (Leitura/Escrita)"
+    }
+}

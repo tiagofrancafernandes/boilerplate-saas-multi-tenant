@@ -21,6 +21,7 @@
     "devDependencies": {
         "@saas/config": "workspace:*",
         "typescript": "^5.8.2",
+        "vue-i18n": "^11.4.12",
         "vue-tsc": "^2.2.8"
     }
 }

@@ -1,0 +1,16 @@
+{
+    "app": {
+        "title": "SaaS Boilerplate"
+    },
+    "nav": {
+        "features": "Features",
+        "pricing": "Pricing",
+        "getStarted": "Get Started"
+    },
+    "hero": {
+        "title": "Next-Gen Multi-Tenant SaaS Boilerplate",
+        "description": "Scalable PostgreSQL schema tenancy, automated subscription cycles, agnostic payment gateway integration, and Nuxt 3 front-ends.",
+        "explorePlans": "Explore Plans",
+        "documentation": "Documentation"
+    }
+}
