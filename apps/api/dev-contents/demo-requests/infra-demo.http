@@ -1,0 +1,44 @@
+### Infrastructure & Operational Demo Requests
+### Base URLs
+@baseUrl = http://localhost:8000
+@infraUrl = {{baseUrl}}/api/infra
+@infraSecret = change-this-to-a-secure-random-token
+@superAdminToken = your_super_admin_sanctum_token_here
+@regularUserToken = your_regular_user_sanctum_token_here
+
+### ------------------------------------------------------------------
+### Happy Paths
+### ------------------------------------------------------------------
+
+### 1. Trigger Scheduler with Static Header Key (POST)
+POST {{infraUrl}}/scheduler
+Accept: application/json
+X-Infra-Key: {{infraSecret}}
+
+### 2. Trigger Scheduler with Static Header Key (GET)
+GET {{infraUrl}}/scheduler
+Accept: application/json
+X-Infra-Key: {{infraSecret}}
+
+### 3. Trigger Scheduler with Super Admin Sanctum Bearer Token (POST)
+POST {{infraUrl}}/scheduler
+Accept: application/json
+Authorization: Bearer {{superAdminToken}}
+
+### ------------------------------------------------------------------
+### Sad Paths (Security Obscurity: Strictly Returns 404 Not Found)
+### ------------------------------------------------------------------
+
+### 4. Sad Path: Trigger without Any Credentials (Expects 404 Not Found)
+POST {{infraUrl}}/scheduler
+Accept: application/json
+
+### 5. Sad Path: Trigger with Invalid Static Secret (Expects 404 Not Found)
+POST {{infraUrl}}/scheduler
+Accept: application/json
+X-Infra-Key: invalid-static-secret-token
+
+### 6. Sad Path: Trigger with Regular User Token without Super Admin Role (Expects 404 Not Found)
+POST {{infraUrl}}/scheduler
+Accept: application/json
+Authorization: Bearer {{regularUserToken}}

@@ -14,7 +14,7 @@
         "lint:php": "cd apps/api && ./vendor/bin/pint --test",
         "format:php": "cd apps/api && ./vendor/bin/pint",
         "format": "prettier --write . && cd apps/api && ./vendor/bin/pint",
-        "test": "turbo run test",
+        "test": "pnpm test:php",
         "test:php": "cd apps/api && php artisan test"
     },
     "devDependencies": {
