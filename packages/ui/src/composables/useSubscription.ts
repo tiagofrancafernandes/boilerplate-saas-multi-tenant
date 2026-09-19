@@ -1,21 +1,21 @@
-import { ref, readonly } from 'vue';
+import { ref, readonly } from 'vue'
 
-const isReadOnly = ref(false);
-const showWarningBanner = ref(false);
-const warningMessage = ref('');
+const isReadOnly = ref(false)
+const showWarningBanner = ref(false)
+const warningMessage = ref('')
 
 export function useSubscription() {
     function setReadOnly(value: boolean): void {
-        isReadOnly.value = value;
+        isReadOnly.value = value
     }
 
     function setWarning(message: string): void {
-        warningMessage.value = message;
-        showWarningBanner.value = message.length > 0;
+        warningMessage.value = message
+        showWarningBanner.value = message.length > 0
     }
 
     function dismissWarning(): void {
-        showWarningBanner.value = false;
+        showWarningBanner.value = false
     }
 
     return {
@@ -25,5 +25,5 @@ export function useSubscription() {
         setReadOnly,
         setWarning,
         dismissWarning,
-    };
+    }
 }
