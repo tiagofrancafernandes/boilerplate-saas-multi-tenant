@@ -7,44 +7,159 @@
 @superAdminToken = your_super_admin_sanctum_token_here
 @regularUserToken = your_regular_user_sanctum_token_here
 
-### ------------------------------------------------------------------
-### Happy Paths
-### ------------------------------------------------------------------
+### ==================================================================
+### 1. Scheduler Endpoints (/scheduler)
+### ==================================================================
 
-### 1. Trigger Scheduler with Static Header Key via /api/infra (POST)
+### 1.1 Trigger Scheduler with Static Header Key (POST)
 POST {{infraUrl}}/scheduler
 Accept: application/json
 X-Infra-Key: {{infraSecret}}
 
-### 2. Trigger Scheduler with Static Header Key via /infra (POST)
+### 1.2 Trigger Scheduler via short URL /infra (POST)
 POST {{infraShortUrl}}/scheduler
 Accept: application/json
 X-Infra-Key: {{infraSecret}}
 
-### 3. Trigger Scheduler with Static Header Key (GET)
-GET {{infraUrl}}/scheduler
-Accept: application/json
-X-Infra-Key: {{infraSecret}}
-
-### 4. Trigger Scheduler with Super Admin Sanctum Bearer Token (POST)
+### 1.3 Trigger Scheduler with Super Admin Token (POST)
 POST {{infraUrl}}/scheduler
 Accept: application/json
 Authorization: Bearer {{superAdminToken}}
 
-### ------------------------------------------------------------------
-### Sad Paths (Security Obscurity: Strictly Returns 404 Not Found)
-### ------------------------------------------------------------------
+### ==================================================================
+### 2. Queue Processing Endpoints (/queue)
+### ==================================================================
 
-### 4. Sad Path: Trigger without Any Credentials (Expects 404 Not Found)
-POST {{infraUrl}}/scheduler
+### 2.1 Process Queue (Default: 1 job, stop when empty)
+POST {{infraUrl}}/queue
+Accept: application/json
+Content-Type: application/json
+X-Infra-Key: {{infraSecret}}
+
+{
+    "connection": "redis",
+    "queue": "default",
+    "stop_when_empty": true,
+    "max_jobs": 1
+}
+
+### 2.2 Process Queue with Webhooks (success, error, final)
+POST {{infraUrl}}/queue
+Accept: application/json
+Content-Type: application/json
+X-Infra-Key: {{infraSecret}}
+
+{
+    "connection": "redis",
+    "queue": "default",
+    "stop_when_empty": true,
+    "max_jobs": 1,
+    "webhooks": {
+        "success": {
+            "url": "https://webhook.site/demo-success",
+            "method": "POST",
+            "headers": {
+                "X-Custom-Header": "saas-worker",
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "status": "success",
+                "content": "Queue processed 1 job successfully"
+            }
+        },
+        "error": {
+            "url": "https://webhook.site/demo-error",
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": {
+                "status": "error",
+                "content": "Queue worker encountered a failure"
+            }
+        },
+        "final": {
+            "url": "https://webhook.site/demo-final",
+            "method": "POST",
+            "body": {
+                "status": "final",
+                "content": "Queue execution ended"
+            }
+        }
+    }
+}
+
+### ==================================================================
+### 3. Artisan Command Execution Endpoints (/artisan)
+### ==================================================================
+
+### 3.1 Execute Artisan Command (e.g. inspire)
+POST {{infraUrl}}/artisan
+Accept: application/json
+Content-Type: application/json
+X-Infra-Key: {{infraSecret}}
+
+{
+    "command": "inspire"
+}
+
+### 3.2 Execute Artisan Command with Parameters and Webhooks
+POST {{infraUrl}}/artisan
+Accept: application/json
+Content-Type: application/json
+X-Infra-Key: {{infraSecret}}
+
+{
+    "command": "subscriptions:check-cycles",
+    "parameters": {
+        "--tenant": "demo_tenant"
+    },
+    "webhooks": {
+        "success": {
+            "url": "https://webhook.site/command-success",
+            "method": "POST",
+            "headers": {
+                "X-Api-Key": "my-secret-key"
+            },
+            "body": {
+                "status": "success",
+                "content": "Subscription cycle check completed successfully"
+            }
+        },
+        "final": {
+            "url": "https://webhook.site/command-final",
+            "method": "POST"
+        }
+    }
+}
+
+### ==================================================================
+### 4. Sad Paths & Security Obscurity (Strict 404 Response)
+### ==================================================================
+
+### 4.1 Sad Path: Queue endpoint without credentials (Expects 404 Not Found)
+POST {{infraUrl}}/queue
 Accept: application/json
 
-### 5. Sad Path: Trigger with Invalid Static Secret (Expects 404 Not Found)
-POST {{infraUrl}}/scheduler
+### 4.2 Sad Path: Queue endpoint with invalid key (Expects 404 Not Found)
+POST {{infraUrl}}/queue
 Accept: application/json
-X-Infra-Key: invalid-static-secret-token
+X-Infra-Key: invalid-token
 
-### 6. Sad Path: Trigger with Regular User Token without Super Admin Role (Expects 404 Not Found)
-POST {{infraUrl}}/scheduler
+### 4.3 Sad Path: Artisan endpoint without credentials (Expects 404 Not Found)
+POST {{infraUrl}}/artisan
 Accept: application/json
-Authorization: Bearer {{regularUserToken}}
+
+### 4.4 Sad Path: Artisan endpoint with invalid key (Expects 404 Not Found)
+POST {{infraUrl}}/artisan
+Accept: application/json
+X-Infra-Key: invalid-token
+
+### 4.5 Sad Path: Artisan endpoint missing command parameter (Expects 422 Unprocessable)
+POST {{infraUrl}}/artisan
+Accept: application/json
+Content-Type: application/json
+X-Infra-Key: {{infraSecret}}
+
+{
+}

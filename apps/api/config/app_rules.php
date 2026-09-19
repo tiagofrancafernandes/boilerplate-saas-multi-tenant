@@ -14,10 +14,17 @@ return [
     */
     'infra' => [
         'scheduler_enabled' => (bool) env('INFRA_SCHEDULER_ENABLED', true),
+        'queue_enabled' => (bool) env('INFRA_QUEUE_ENABLED', true),
+        'artisan_enabled' => (bool) env('INFRA_ARTISAN_ENABLED', true),
+        'auth_token' => env('INFRA_AUTH_TOKEN', env('INFRA_SCHEDULER_AUTH_TOKEN', null)),
         'scheduler_auth_token' => env('INFRA_SCHEDULER_AUTH_TOKEN', null),
+        'header_name' => env('INFRA_HEADER_NAME', env('INFRA_SCHEDULER_HEADER_NAME', 'X-Infra-Key')),
         'scheduler_header_name' => env('INFRA_SCHEDULER_HEADER_NAME', 'X-Infra-Key'),
+        'role' => env('INFRA_ROLE', env('INFRA_SCHEDULER_ROLE', 'super-admin')),
         'scheduler_role' => env('INFRA_SCHEDULER_ROLE', 'super-admin'),
+        'permission' => env('INFRA_PERMISSION', env('INFRA_SCHEDULER_PERMISSION', 'run-scheduler')),
         'scheduler_permission' => env('INFRA_SCHEDULER_PERMISSION', 'run-scheduler'),
+        'webhook_timeout_seconds' => (int) env('INFRA_WEBHOOK_TIMEOUT', 5),
     ],
 
     /*

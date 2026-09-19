@@ -19,28 +19,48 @@ if (!class_exists(InfraSchedulerService::class)) {
 
         public static function isAuthorized(Request $request): bool
         {
-            if (static::isStaticKeyValid($request)) {
-                return true;
-            }
-
-            if (static::isSuperAdminUserValid($request)) {
-                return true;
-            }
-
-            return false;
+            return InfraAuthService::isAuthorized($request);
         }
 
-        public static function runScheduler(): array
+        public static function runScheduler(mixed $webhooks = null): array
         {
-            $exitCode = Artisan::call('schedule:run');
-            $output = Artisan::output();
+            $executedAt = now()->toIso8601String();
 
-            return [
-                'success' => $exitCode === 0,
-                'exit_code' => $exitCode,
-                'output' => trim($output),
-                'executed_at' => now()->toIso8601String(),
-            ];
+            try {
+                $exitCode = Artisan::call('schedule:run');
+                $output = trim(Artisan::output());
+                $success = $exitCode === 0;
+
+                $result = [
+                    'success' => $success,
+                    'exit_code' => $exitCode,
+                    'output' => $output,
+                    'executed_at' => $executedAt,
+                ];
+
+                if ($success) {
+                    InfraWebhookService::dispatch($webhooks, 'success', $result);
+                }
+
+                if (!$success) {
+                    InfraWebhookService::dispatch($webhooks, 'error', $result);
+                }
+
+                return $result;
+            } catch (\Throwable $e) {
+                $errorResult = [
+                    'success' => false,
+                    'exit_code' => 1,
+                    'output' => $e->getMessage(),
+                    'executed_at' => $executedAt,
+                ];
+
+                InfraWebhookService::dispatch($webhooks, 'error', $errorResult);
+
+                return $errorResult;
+            } finally {
+                InfraWebhookService::dispatch($webhooks, 'final', $result ?? $errorResult ?? []);
+            }
         }
 
         private static function isStaticKeyValid(Request $request): bool
