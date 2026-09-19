@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BaseButton } from '@saas/ui'
+import { BaseButton } from '@saas/ui';
 </script>
 
 <template>
@@ -13,9 +13,7 @@ import { BaseButton } from '@saas/ui'
                 <nav class="flex items-center gap-6 text-sm font-medium">
                     <a href="#features" class="hover:text-blue-600">Features</a>
                     <a href="#pricing" class="hover:text-blue-600">Pricing</a>
-                    <BaseButton variant="primary" icon="tabler:user-plus">
-                        Get Started
-                    </BaseButton>
+                    <BaseButton variant="primary" icon="tabler:user-plus">Get Started</BaseButton>
                 </nav>
             </div>
         </header>
@@ -25,16 +23,12 @@ import { BaseButton } from '@saas/ui'
                 Next-Gen Multi-Tenant SaaS Boilerplate
             </h1>
             <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
-                Scalable PostgreSQL schema tenancy, automated subscription cycles,
-                agnostic payment gateway integration, and Nuxt 3 front-ends.
+                Scalable PostgreSQL schema tenancy, automated subscription cycles, agnostic payment gateway integration,
+                and Nuxt 3 front-ends.
             </p>
             <div class="mt-8 flex justify-center gap-4">
-                <BaseButton variant="primary" icon="tabler:arrow-right" icon-position="right">
-                    Explore Plans
-                </BaseButton>
-                <BaseButton variant="outline" icon="tabler:brand-github">
-                    Documentation
-                </BaseButton>
+                <BaseButton variant="primary" icon="tabler:arrow-right" icon-position="right">Explore Plans</BaseButton>
+                <BaseButton variant="outline" icon="tabler:brand-github">Documentation</BaseButton>
             </div>
         </main>
     </div>

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\EnforceSubscriptionAccess;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -19,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(base_path('routes/public.php'));
 
             Route::prefix('api/tenant')
-                ->middleware('api')
+                ->middleware(['api', 'tenant.subscription'])
                 ->group(base_path('routes/tenant.php'));
 
             Route::prefix('api/admin')
@@ -28,7 +29,9 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(static function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'tenant.subscription' => EnforceSubscriptionAccess::class,
+        ]);
     })
     ->withExceptions(static function (Exceptions $exceptions): void {
         //

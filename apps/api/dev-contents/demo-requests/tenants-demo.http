@@ -4,6 +4,8 @@
 @adminUrl = {{baseUrl}}/api/admin
 @tenantUrl = {{baseUrl}}/api/tenant
 @publicUrl = {{baseUrl}}/api/public
+@token = your_tenant_token_here
+@adminToken = your_admin_token_here
 
 ### ------------------------------------------------------------------
 ### Public Routes
@@ -21,6 +23,17 @@ Accept: application/json
 GET {{tenantUrl}}/profile
 Accept: application/json
 Authorization: Bearer {{token}}
+
+### Create Resource (Write Request - subjected to subscription access check)
+POST {{tenantUrl}}/resources
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "title": "Tenant Item",
+    "description": "Demonstration write request"
+}
 
 ### ------------------------------------------------------------------
 ### Admin Routes

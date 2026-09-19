@@ -1,0 +1,29 @@
+### Subscriptions & Read-Only Middleware Demo Requests
+### Base URLs
+@baseUrl = http://localhost:8000
+@tenantUrl = {{baseUrl}}/api/tenant
+@publicUrl = {{baseUrl}}/api/public
+@token = your_tenant_token_here
+
+### ------------------------------------------------------------------
+### Tenant Read-Only & Grace Period Demonstration
+### ------------------------------------------------------------------
+
+### Read Request (Always Allowed for Active/Trial/Grace/Expired)
+GET {{tenantUrl}}/profile
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Write Request: Create Resource
+### - Returns 201 when subscription or trial is active
+### - Returns 201 + X-Subscription-Warning header when in Grace Period
+### - Returns 403 Forbidden when subscription is expired (Read-Only mode)
+POST {{tenantUrl}}/resources
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "title": "New Project Resource",
+    "description": "Demonstrating write operation under subscription enforcement"
+}
