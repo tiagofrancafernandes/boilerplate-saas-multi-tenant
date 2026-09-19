@@ -28,6 +28,13 @@ node_modules
 .env.*
 !.env.example
 
+# Docker Compose
+compose.y*ml
+docker-compose.y*ml
+!compose.example.y*ml
+!docker-compose.example.y*ml
+
+
 # Composer / Laravel
 vendor/
 apps/api/storage/*.key

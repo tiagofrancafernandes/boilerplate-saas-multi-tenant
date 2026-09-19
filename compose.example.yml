@@ -1,0 +1,147 @@
+name: boilerplate-saas
+
+services:
+    # ==============================================================================
+    # Primary PostgreSQL Database (Multi-Tenant Schema Manager)
+    # ==============================================================================
+    postgres:
+        image: postgres:16-alpine
+        container_name: saas_postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: ${DB_DATABASE:-dev_boilerplate_saas}
+            POSTGRES_USER: ${DB_USERNAME:-postgres}
+            POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+            PGDATA: /var/lib/postgresql/data/pgdata
+        ports:
+            - '${DB_PORT:-1010}:5432'
+        volumes:
+            - saas_pgdata:/var/lib/postgresql/data
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U postgres -d dev_boilerplate_saas']
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        networks:
+            - saas_network
+
+    # ==============================================================================
+    # Redis Cache, Sessions & Queues
+    # ==============================================================================
+    redis:
+        image: redis:7-alpine
+        container_name: saas_redis
+        restart: unless-stopped
+        ports:
+            - '${REDIS_PORT:-1020}:6379'
+        volumes:
+            - saas_redisdata:/data
+        healthcheck:
+            test: ['CMD', 'redis-cli', 'ping']
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        networks:
+            - saas_network
+
+    # ==============================================================================
+    # MinIO (S3 Compatible Object Storage)
+    # ==============================================================================
+    minio:
+        image: minio/minio:latest
+        container_name: saas_minio
+        restart: unless-stopped
+        command: server /data --console-address ":9002"
+        environment:
+            MINIO_ROOT_USER: ${AWS_ACCESS_KEY_ID:-minioadmin}
+            MINIO_ROOT_PASSWORD: ${AWS_SECRET_ACCESS_KEY:-minioadmin}
+        ports:
+            - '9001:9000' # S3 API endpoint
+            - '9002:9002' # MinIO Web Console
+        volumes:
+            - saas_miniodata:/data
+        networks:
+            - saas_network
+
+    # Helper service to initialize the default S3 bucket
+    minio-init-bucket:
+        image: minio/mc:latest
+        container_name: saas_minio_init
+        depends_on:
+            - minio
+        entrypoint: >
+            /bin/sh -c "
+            until (/usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin); do
+              echo 'Waiting for MinIO storage to be ready...';
+              sleep 2;
+            done;
+            /usr/bin/mc mb --ignore-existing myminio/generic;
+            /usr/bin/mc anonymous set download myminio/generic;
+            echo 'Default bucket generic initialized.';
+            exit 0;
+            "
+        networks:
+            - saas_network
+
+    # ==============================================================================
+    # Mailpit - Local SMTP Server & Webmail (Commented by default)
+    # ==============================================================================
+    # mailpit:
+    #   image: axllent/mailpit:latest
+    #   container_name: saas_mailpit
+    #   restart: unless-stopped
+    #   ports:
+    #     - "1025:1025" # SMTP port (MAIL_PORT=1025)
+    #     - "8025:8025" # Webmail Dashboard
+    #   environment:
+    #     MP_MAX_MESSAGES: 5000
+    #     MP_SMTP_AUTH_ACCEPT_ANY: 1
+    #     MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    #   networks:
+    #     - saas_network
+
+    # ==============================================================================
+    # Meilisearch - Full-Text Search Engine (Optional / Commented)
+    # ==============================================================================
+    # meilisearch:
+    #   image: getmeili/meilisearch:latest
+    #   container_name: saas_meilisearch
+    #   restart: unless-stopped
+    #   environment:
+    #     MEILI_NO_ANALYTICS: "true"
+    #     MEILI_MASTER_KEY: ${MEILISEARCH_KEY:-masterKey12345}
+    #   ports:
+    #     - "7700:7700"
+    #   volumes:
+    #     - saas_meilidata:/meili_data
+    #   networks:
+    #     - saas_network
+
+    # ==============================================================================
+    # pgAdmin - PostgreSQL Web Admin UI (Optional / Commented)
+    # ==============================================================================
+    # pgadmin:
+    #   image: dpage/pgadmin4:latest
+    #   container_name: saas_pgadmin
+    #   restart: unless-stopped
+    #   environment:
+    #     PGADMIN_DEFAULT_EMAIL: admin@mail.com
+    #     PGADMIN_DEFAULT_PASSWORD: power@123
+    #   ports:
+    #     - "5050:80"
+    #   networks:
+    #     - saas_network
+
+networks:
+    saas_network:
+        driver: bridge
+
+volumes:
+    saas_pgdata:
+        driver: local
+    saas_redisdata:
+        driver: local
+    saas_miniodata:
+        driver: local
+    # saas_meilidata:
+    #   driver: local
